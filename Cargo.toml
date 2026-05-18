@@ -1,0 +1,21 @@
+[package]
+name = "lab-bookkeeper-core"
+description = "Laboratory reagent accounting and inventory tracking application"
+version = "0.1.0"
+edition = "2024"
+authors = ["0xDimay <HexDimay@yandex.ru>"]
+readme = "README.md"
+license = "Apache-2.0"
+rust-version = "1.95.0"
+repository = "https://github.com/HexDimay/lab-bookkeeper"
+homepage = "https://github.com/HexDimay/lab-bookkeeper"
+
+[dependencies]
+# egui = "0.34.2"
+# eframe = "0.34.2"
+# egui_extras = { version = "0.34.2", features = ["svg"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+uuid = { version = "1.23.1", features = ["v4"] }
+log = "0.4.29"
+env_logger = "0.11.10"

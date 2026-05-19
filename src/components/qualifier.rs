@@ -6,7 +6,7 @@ use crate::{components::argument::Arg, err::ErrorComponents};
 pub struct Qualifier<A: Arg> {
     /// Всегда постоянен и не может быть изменён.
     id: uuid::Uuid,
-    arguments: Vec<A>
+    arguments: Vec<A>,
 }
 
 impl<A: Arg> Qualifier<A> {
@@ -14,7 +14,7 @@ impl<A: Arg> Qualifier<A> {
     pub fn new() -> Self {
         Self {
             id: uuid::Uuid::new_v4(),
-            arguments: Vec::new()
+            arguments: Vec::new(),
         }
     }
 
@@ -32,9 +32,9 @@ impl<A: Arg> Qualifier<A> {
         let res_find = self.find_by_name(argument.name());
         match res_find {
             Some(_) => return Err(ErrorComponents::ArgumentExists),
-            None => self.arguments.push(argument)
+            None => self.arguments.push(argument),
         }
-        
+
         Ok(())
     }
 
@@ -43,23 +43,16 @@ impl<A: Arg> Qualifier<A> {
         let res_find = self.find_by_name(name);
         match res_find {
             Some(idx) => Some(self.arguments.remove(idx)),
-            None => None
+            None => None,
         }
     }
 
     /// Находит аргумент по имени и возвращает его позицию в определителе.
     pub fn find_by_name(&self, name: &String) -> Option<usize> {
-        for i in 0..self.arguments.len() {
-            if self.arguments[i].name() == name {
-                return Some(i);
-            }
-        }
-
-        None
+        self.arguments.iter().position(|arg| arg.name() == name)
     }
 
     pub fn get(&self, index: usize) -> Option<&A> {
         self.arguments.get(index)
     }
 }
-

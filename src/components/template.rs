@@ -6,7 +6,7 @@ pub struct Template<A: Arg> {
     id: uuid::Uuid,
     qualifier: Qualifier<A>,
     /// Позиция значения должна совпадать с позицией аргумента в определителе.
-    values: Vec<Value>
+    values: Vec<Value>,
 }
 
 impl<A: Arg> Template<A> {
@@ -15,7 +15,7 @@ impl<A: Arg> Template<A> {
         Self {
             id: uuid::Uuid::new_v4(),
             qualifier,
-            values
+            values,
         }
     }
 
@@ -25,14 +25,14 @@ impl<A: Arg> Template<A> {
 
     /// Инициализация значений относительно аргументов.
     fn init_args(qualifier: &Qualifier<A>) -> Vec<Value> {
-        qualifier.arguments().iter()
-            .map(|a| {
-                match a.type_value() {
-                    super::argument::TypeValue::Float => Value::Float(Default::default()),
-                    super::argument::TypeValue::Int => Value::Int(Default::default()),
-                    super::argument::TypeValue::String => Value::String(Default::default()),
-                    super::argument::TypeValue::Bool => Value::Bool(Default::default()),
-                }
+        qualifier
+            .arguments()
+            .iter()
+            .map(|a| match a.type_value() {
+                super::argument::TypeValue::Float => Value::Float(Default::default()),
+                super::argument::TypeValue::Int => Value::Int(Default::default()),
+                super::argument::TypeValue::String => Value::String(Default::default()),
+                super::argument::TypeValue::Bool => Value::Bool(Default::default()),
             })
             .collect()
     }

@@ -2,15 +2,12 @@
 #[derive(Debug, Clone)]
 pub struct Argument {
     name: String,
-    type_value: TypeValue
+    type_value: TypeValue,
 }
 
 impl Argument {
     pub fn new(name: String, type_value: TypeValue) -> Self {
-        Self {
-            name,
-            type_value
-        }
+        Self { name, type_value }
     }
 }
 
@@ -37,7 +34,7 @@ pub enum TypeValue {
     Float,
     Int,
     String,
-    Bool
+    Bool,
 }
 
 pub trait Arg {

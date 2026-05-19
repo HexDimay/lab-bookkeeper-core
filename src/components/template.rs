@@ -1,7 +1,7 @@
-use crate::{components::{argument::Arg, qualifier::Qualifier, template::Template}, err::ErrorComponents};
+use crate::components::{argument::Arg, entity::Value, qualifier::Qualifier};
 
-/// `Entity` - основная сущность над которой происходят операции.
-pub struct Entity<A: Arg> {
+/// `Template` - структура-шаблон, созданная для автоматического заполнения `Entity`.
+pub struct Template<A: Arg> {
     /// Не может быть изменён.
     id: uuid::Uuid,
     qualifier: Qualifier<A>,
@@ -9,7 +9,7 @@ pub struct Entity<A: Arg> {
     values: Vec<Value>
 }
 
-impl<A: Arg> Entity<A> {
+impl<A: Arg> Template<A> {
     pub fn new(qualifier: Qualifier<A>) -> Self {
         let values = Self::init_args(&qualifier);
         Self {
@@ -17,22 +17,6 @@ impl<A: Arg> Entity<A> {
             qualifier,
             values
         }
-    }
-
-    pub fn apply_template(&mut self, templ: &Template<A>) -> Result<(), ErrorComponents> {
-        if self.values.len() != templ.values().len() {
-            return Err(ErrorComponents::PatternsDontMatch);
-        }
-
-        for (i, v_templ) in templ.values().iter().enumerate() {
-            if &self.values()[i] != v_templ {
-                return Err(ErrorComponents::PatternsDontMatch);
-            }
-        }
-
-        self.values = templ.values().to_vec();
-
-        Ok(())
     }
 
     pub fn id(&self) -> uuid::Uuid {
@@ -60,24 +44,4 @@ impl<A: Arg> Entity<A> {
     pub fn values(&self) -> &[Value] {
         &self.values
     }
-
-    pub fn get_mut_values(&mut self) -> &mut [Value] {
-        &mut self.values
-    }
-
-    pub fn get_value_by_name(&self, name: &String) -> Option<&Value> {
-        self.values.get(self.qualifier.find_by_name(name)?)
-    }
-
-    pub fn get_mut_value_by_name(&mut self, name: &String) -> Option<&mut Value> {
-        self.values.get_mut(self.qualifier.find_by_name(name)?)
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
-pub enum Value {
-    Float(f32),
-    Int(i32),
-    String(String),
-    Bool(bool)
 }

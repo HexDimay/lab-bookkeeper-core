@@ -1,4 +1,4 @@
-use crate::components::argument::Arg;
+use crate::{components::argument::Arg, err::ErrorComponents};
 
 /// Определитель - это специальная структура, что задаёт общий каркас всем, кто его использует.
 /// Т.е. он является условным предшественником шаблона/макета, что определяет внешность сущности.
@@ -28,10 +28,10 @@ impl<A: Arg> Qualifier<A> {
 
     /// Добавляет новый аргумент в определитель.
     /// Возвращает `Ok(())` в случае успеха.
-    pub fn push_argument(&mut self, argument: A) -> Result<(), ErrorQualifier> {
+    pub fn push_argument(&mut self, argument: A) -> Result<(), ErrorComponents> {
         let res_find = self.find_by_name(argument.name());
         match res_find {
-            Some(_) => return Err(ErrorQualifier::ElementExists),
+            Some(_) => return Err(ErrorComponents::ArgumentExists),
             None => self.arguments.push(argument)
         }
         
@@ -63,6 +63,3 @@ impl<A: Arg> Qualifier<A> {
     }
 }
 
-pub enum ErrorQualifier {
-    ElementExists
-}

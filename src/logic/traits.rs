@@ -1,10 +1,13 @@
+use crate::{
+    components::{
+        argument::{Arg, TypeValue},
+        entity::{Entity, Value},
+        qualifier::Qualifier,
+        template::Template,
+    },
+    logic::state::State,
+};
 use anyhow::{Ok, Result};
-use crate::{components::{
-    argument::{Arg, TypeValue},
-    entity::{Entity, Value},
-    qualifier::Qualifier,
-    template::Template,
-}, logic::state::State};
 
 /// `HandleData` - слушатель данных, что позволяет `Commander` осуществлять все требуемые комманды.
 pub trait HandleData<A: Arg> {
@@ -31,7 +34,7 @@ pub trait HandleData<A: Arg> {
 /// - [ ] Реализация проверки конфигураций и прочего необходимого для начала работы (init).
 /// - [ ] Реализация полной очистки или определённых данных.
 /// - [ ] Чтение и запись в базу данных.
-/// - [ ] Создание специфичных баз данных.
+/// - [ ] Создание специфичных баз данных (т.е. таблиц).
 /// - [ ] Формирование истории действий (транзакций)
 /// - [ ] Сбор статистики (хз, может перекинуть это на клиент)
 /// - [ ] Редактирование определённых частей данных
@@ -47,7 +50,16 @@ pub trait Commander<A: Arg>: HandleData<A> {
         Ok(())
     }
 
-    
+    fn create_table_based_on_qualifier(&self, qualifier: &Qualifier<A>) -> Result<()> {
+        match self.get_state().database.as_ref() {
+            Some(connection) => {
+
+            }
+            None => log::warn!("There is no connection to the database."),
+        }
+
+        Ok(())
+    }
 
     fn get_name_database(&self) -> &str {
         &self.get_state().name_db

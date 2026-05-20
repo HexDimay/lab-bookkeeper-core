@@ -1,3 +1,5 @@
+use chrono::NaiveDate;
+
 use crate::{
     components::{argument::Arg, qualifier::Qualifier, template::Template},
     err::ErrorComponents,
@@ -52,6 +54,7 @@ impl<A: Arg> Entity<A> {
                 super::argument::TypeValue::Int => Value::Int(Default::default()),
                 super::argument::TypeValue::String => Value::String(Default::default()),
                 super::argument::TypeValue::Bool => Value::Bool(Default::default()),
+                super::argument::TypeValue::Date => Value::Date(Default::default()),
             })
             .collect()
     }
@@ -83,4 +86,5 @@ pub enum Value {
     Int(i32),
     String(String),
     Bool(bool),
+    Date(NaiveDate),
 }

@@ -35,6 +35,7 @@ pub enum TypeValue {
     Int,
     String,
     Bool,
+    Date,
 }
 
 pub trait Arg {

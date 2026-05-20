@@ -15,6 +15,7 @@ homepage = "https://github.com/HexDimay/lab-bookkeeper"
 # eframe = "0.34.2"
 # egui_extras = { version = "0.34.2", features = ["svg"] }
 anyhow = "1.0.102"
+chrono = "0.4.44"
 sqlite = "0.37.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
